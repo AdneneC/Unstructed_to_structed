@@ -69,6 +69,13 @@ class ProfileInfoSpec extends AnyFlatSpec with Matchers with GivenWhenThen {
     val result = extractPostInfoTable(rawData, spark)
     Then("profile info dataframe should be extracted from raw data")
     val expectedResult = Seq(
+
+
+
+
+
+
+
       Result(created_at = 75L,
         is_video =  false,
         post_id = "String",
