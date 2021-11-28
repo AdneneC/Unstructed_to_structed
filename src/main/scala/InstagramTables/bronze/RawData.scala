@@ -1,11 +1,11 @@
 package InstagramTables.bronze
 
-import org.apache.spark.sql.{SparkSession}
+import org.apache.spark.sql.SparkSession
 
 object RawData {
-  def bronzeData (spark: SparkSession) = {
+  def readAndPersistRawData (spark: SparkSession, path: String): Unit = {
 
-    val bronzeRawData = spark.read.option("multiline",true).json("phil.coutinho.json")
-    bronzeRawData.write.format("parquet").save("rawDataBronze.parquet")
+    val rawData = spark.read.option("multiline",true).json(path)
+    rawData.write.format("parquet").save("BronzeData.parquet")
   }
 }
