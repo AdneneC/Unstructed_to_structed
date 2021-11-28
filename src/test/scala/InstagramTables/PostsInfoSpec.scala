@@ -8,9 +8,18 @@ import org.scalatest.matchers.should.Matchers
 
 
 case class RawData(
-                    GraphProfileImages: String,
+                    GraphProfileImages: GraphProfileImages,
                     graphImages: Array[GraphImages]
                   )
+
+case class GraphProfileImages (created_time : Long, info : Info, username: String)
+
+case class Info(
+                  biography: String,
+                  followers_count: Long,
+                  following_count: Long,
+                  full_name: String
+                 )
 
 case class GraphImages(comments: comments,
                        comments_disabled: Boolean,
@@ -38,7 +47,7 @@ case class Result(created_at: Long,
                   display_url: String
                  )
 
-class ProfileInfoSpec extends AnyFlatSpec with Matchers with GivenWhenThen {
+class PostsInfoSpec extends AnyFlatSpec with Matchers with GivenWhenThen {
   val spark: SparkSession = SparkSession
     .builder()
     .master("local[*]")
@@ -51,7 +60,15 @@ class ProfileInfoSpec extends AnyFlatSpec with Matchers with GivenWhenThen {
     Given("raw data ")
     val rawData = Seq(
       RawData(
-        "String",
+        GraphProfileImages(
+          created_time = 75L,
+          Info(
+            biography = "String",
+            followers_count = 77L,
+            following_count = 77L,
+            full_name = "String"
+          ),
+          username = "String"),
         Array(GraphImages(
           comments = comments(Array(data(created_at = 75L, id = "458", Owner(id = "String", profile_pic_url = "String", username = "String"), text ="text"))),
           comments_disabled = true,
