@@ -1,7 +1,6 @@
 package InstagramTables
 
 import InstagramTables.silver.PostsInfo.extractPostInfoTable
-import org.apache.commons.net.ntp.TimeStamp
 import org.apache.spark.sql.SparkSession
 import org.scalatest.GivenWhenThen
 import org.scalatest.flatspec.AnyFlatSpec
@@ -23,13 +22,14 @@ case class GraphImages(comments: comments,
                        location: String,
                        username: String)
 
-case class comments(data: String)
+case class comments(data: Array[data])
 
 case class Dimensions(height: Long, width: Long)
 
-//case class beneathData(created_at: Long, id: String, owner: Owner, text: String)
+case class data(created_at: Long, id: String, owner: Owner, text: String)
 
-//case class Owner(id: String, profile_pic_url: String, username: String)
+case class Owner(id: String, profile_pic_url: String, username: String)
+
 case class Result(created_at: Long,
                   is_video: Boolean,
                   post_id: String,
@@ -53,7 +53,7 @@ class ProfileInfoSpec extends AnyFlatSpec with Matchers with GivenWhenThen {
       RawData(
         "String",
         Array(GraphImages(
-          comments("data"),
+          comments = comments(Array(data(created_at = 75L, id = "458", Owner(id = "String", profile_pic_url = "String", username = "String"), text ="text"))),
           comments_disabled = true,
           dimensions = Dimensions(height = 45, width = 35),
           display_url = "String",
@@ -69,14 +69,6 @@ class ProfileInfoSpec extends AnyFlatSpec with Matchers with GivenWhenThen {
     val result = extractPostInfoTable(rawData, spark)
     Then("profile info dataframe should be extracted from raw data")
     val expectedResult = Seq(
-
-
-
-
-
-
-
-
       Result(created_at = 75L,
         is_video =  false,
         post_id = "String",

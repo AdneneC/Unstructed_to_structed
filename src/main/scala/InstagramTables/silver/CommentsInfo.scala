@@ -11,8 +11,8 @@ object CommentsInfo {
     val explodedData = instaData.select(explode($"GraphImages").as("GraphImages"))
     val explodedFinally = explodedData.select(explode($"GraphImages.comments.data"))
     val commentsData = explodedFinally.select(
-      'col.getItem("created_at").cast(TimestampType) as 'comment_created_at,
-      'col.getItem("id").cast("Long") as 'data_id,
+      'col.getItem("created_at") as 'created_at,
+      'col.getItem("id") as 'data_id,
       'col.getItem("owner").getItem("id") as 'owner_id,
       'col.getItem("owner").getItem("profile_pic_url") as 'owner_profile_pic_url,
       'col.getItem("owner").getItem("username") as 'username,
