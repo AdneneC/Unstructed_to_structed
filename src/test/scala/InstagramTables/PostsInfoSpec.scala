@@ -41,7 +41,6 @@ case class Owner(id: String, profile_pic_url: String, username: String)
 
 case class Result(created_at: Long,
                   is_video: Boolean,
-                  post_id: String,
                   location: String,
                   username: String,
                   display_url: String
@@ -88,12 +87,10 @@ class PostsInfoSpec extends AnyFlatSpec with Matchers with GivenWhenThen {
     val expectedResult = Seq(
       Result(created_at = 75L,
         is_video =  false,
-        post_id = "String",
         location = "String",
         username =  "String",
         display_url =  "String"
-      )
-    ).toDF()
+      )).toDF()
     result.collect() should contain theSameElementsAs (expectedResult.collect())
 
   }
