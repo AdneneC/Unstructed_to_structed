@@ -6,7 +6,7 @@ import org.scalatest.GivenWhenThen
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
-case class ResultProfile (created_time : Long,
+case class Profile (created_time : Long,
                           username : String,
                           biography : String,
                           followers_count : Long,
@@ -43,7 +43,7 @@ class ProfileInfoSpec extends AnyFlatSpec with Matchers with GivenWhenThen {
     val result = extractProfileInfoTable(rawData, spark)
     Then("Profile info dataframe should be extracted from raw data")
     val expectedResult = Seq(
-      ResultProfile(created_time = 75L,
+      Profile(created_time = 75L,
         username = "String",
         biography = "String",
         followers_count = 77L,

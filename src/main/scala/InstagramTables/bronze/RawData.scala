@@ -8,4 +8,5 @@ object RawData {
     val rawData = spark.read.option("multiline",true).json(path)
     rawData.write.format("parquet").save("BronzeData.parquet")
   }
+
 }

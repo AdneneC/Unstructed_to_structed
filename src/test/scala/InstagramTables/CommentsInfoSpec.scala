@@ -7,7 +7,7 @@ import org.scalatest.matchers.should.Matchers
 import org.apache.spark.sql.SparkSession
 
 
-case class ResultComment(created_at : Long,
+case class Comments(created_at : Long,
                   data_id : String,
                   owner_id : String,
                   owner_profile_pic_url : String,
@@ -46,7 +46,7 @@ class CommentsInfoSpec extends AnyFlatSpec with Matchers with GivenWhenThen {
     val result = extractCommentsInfoTable(rawData, spark)
     Then ("comments info dataframe should be extracted from raw data")
     val expectedResult = Seq(
-      ResultComment(created_at = 75L,
+      Comments(created_at = 75L,
       data_id = "458",
       owner_id = "String",
       owner_profile_pic_url = "String",

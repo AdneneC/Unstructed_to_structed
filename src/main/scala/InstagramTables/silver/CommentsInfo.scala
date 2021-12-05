@@ -19,7 +19,7 @@ object CommentsInfo {
       'col.getItem("text") as 'text
     )
 
-    commentsData
+
   }
 
 }

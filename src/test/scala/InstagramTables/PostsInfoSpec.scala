@@ -39,7 +39,7 @@ case class data(created_at: Long, id: String, owner: Owner, text: String)
 
 case class Owner(id: String, profile_pic_url: String, username: String)
 
-case class Result(created_at: Long,
+case class Posts(created_at: Long,
                   is_video: Boolean,
                   location: String,
                   username: String,
@@ -85,7 +85,7 @@ class PostsInfoSpec extends AnyFlatSpec with Matchers with GivenWhenThen {
     val result = extractPostInfoTable(rawData, spark)
     Then("profile info dataframe should be extracted from raw data")
     val expectedResult = Seq(
-      Result(created_at = 75L,
+      Posts(created_at = 75L,
         is_video =  false,
         location = "String",
         username =  "String",
