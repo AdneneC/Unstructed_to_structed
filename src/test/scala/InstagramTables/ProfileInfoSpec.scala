@@ -1,42 +1,17 @@
 package InstagramTables
 
-import InstagramTables.silver.PostsInfo.extractPostInfoTable
-import org.apache.commons.net.ntp.TimeStamp
+import InstagramTables.silver.ProfileInfo.extractProfileInfoTable
 import org.apache.spark.sql.SparkSession
 import org.scalatest.GivenWhenThen
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
-
-case class RawData(
-                    GraphProfileImages: String,
-                    graphImages: Array[GraphImages]
-                  )
-
-case class GraphImages(comments: comments,
-                       comments_disabled: Boolean,
-                       dimensions: Dimensions,
-                       display_url: String,
-                       is_video: Boolean,
-                       taken_at_timestamp: Long,
-                       id: String,
-                       location: String,
-                       username: String)
-
-case class comments(data: String)
-
-case class Dimensions(height: Long, width: Long)
-
-//case class beneathData(created_at: Long, id: String, owner: Owner, text: String)
-
-//case class Owner(id: String, profile_pic_url: String, username: String)
-case class Result(created_at: Long,
-                  is_video: Boolean,
-                  post_id: String,
-                  location: String,
-                  username: String,
-                  display_url: String
-                 )
+case class Profile (created_time : Long,
+                          username : String,
+                          biography : String,
+                          followers_count : Long,
+                          following_count : Long,
+                          full_name : String)
 
 class ProfileInfoSpec extends AnyFlatSpec with Matchers with GivenWhenThen {
   val spark: SparkSession = SparkSession
@@ -47,13 +22,13 @@ class ProfileInfoSpec extends AnyFlatSpec with Matchers with GivenWhenThen {
 
   import spark.implicits._
 
-  "extractPostInfoTable" should "extract profile info dataframe from raw data" in {
-    Given("raw data ")
+  "extractProfileInfoTable" should "extract profile info dataframe from raw data" in {
+    Given("the raw data")
     val rawData = Seq(
       RawData(
-        "String",
+        GraphProfileImages(created_time = 75L, Info( biography = "String", followers_count = 77L, following_count = 77L, full_name = "String"),username = "String"),
         Array(GraphImages(
-          comments("data"),
+          comments = comments(Array(data(created_at = 75L, id = "458", Owner(id = "String", profile_pic_url = "String", username = "String"), text = "text"))),
           comments_disabled = true,
           dimensions = Dimensions(height = 45, width = 35),
           display_url = "String",
@@ -62,31 +37,21 @@ class ProfileInfoSpec extends AnyFlatSpec with Matchers with GivenWhenThen {
           id = "String",
           location = "String",
           username = "String"
-        ))
-      )
-    ).toDF()
-    When("extractPostInfoTable is invoked")
-    val result = extractPostInfoTable(rawData, spark)
-    Then("profile info dataframe should be extracted from raw data")
+        )
+        ))).toDF()
+    When("extractProfileInfoTable is invoked")
+    val result = extractProfileInfoTable(rawData, spark)
+    Then("Profile info dataframe should be extracted from raw data")
     val expectedResult = Seq(
-
-
-
-
-
-
-
-
-      Result(created_at = 75L,
-        is_video =  false,
-        post_id = "String",
-        location = "String",
-        username =  "String",
-        display_url =  "String"
+      Profile(created_time = 75L,
+        username = "String",
+        biography = "String",
+        followers_count = 77L,
+        following_count = 77L,
+        full_name = "String"
       )
     ).toDF()
     result.collect() should contain theSameElementsAs (expectedResult.collect())
 
   }
-
-}
+  }

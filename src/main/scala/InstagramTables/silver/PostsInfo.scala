@@ -11,9 +11,8 @@ object PostsInfo {
       //val instaData = spark.read.option("multiline",true).json("/FileStore/tables/philCoutinho.json")
       val explodedGraphImages = instaData.select(explode($"GraphImages").as("GraphImages"))
       val postsData = explodedGraphImages.select(
-        $"GraphImages.taken_at_timestamp" as 'created_at,
+        'GraphImages.getItem("taken_at_timestamp") as 'created_time,
         'GraphImages.getItem("is_video") as 'is_video,
-        'GraphImages.getItem("id") as 'post_id,
         'GraphImages.getItem("location") as 'location,
         'GraphImages.getItem("username") as 'username,
         'GraphImages.getItem("display_url") as 'display_url
