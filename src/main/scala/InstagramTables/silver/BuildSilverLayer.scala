@@ -8,7 +8,7 @@ object BuildSilverLayer{
     implicit val spark: SparkSession = SparkSession
       .builder()
       .master("local[*]")
-      .appName("SilverLayer")
+      .appName("Silver")
       .getOrCreate()
 
     val commentsTable = CommentsInfo.extractCommentsInfoTable(BuildBronzeLayer)
@@ -20,9 +20,7 @@ object BuildSilverLayer{
     val profileInfoTable = ProfileInfo.extractProfileInfoTable(BuildBronzeLayer)
     profileInfoTable.write.mode("append").parquet("SilverProfileInfoTable.parquet")
 
-    val silverCommentsData = spark.read.parquet("SilverCommentsTable.parquet")
-    val silverPostInfoTable = spark.read.parquet("SilverPostInfoTable.parquet")
-    val silverProfileInfo = spark.read.parquet("SilverProfileInfoTable.parquet"
+
   }
 
 }

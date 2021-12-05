@@ -14,29 +14,29 @@ object Aggregations {
   }
 
   def getLikesCountLikesPerPost (PostsInfo : DataFrame, spark : SparkSession):DataFrame = {
-    val countLikesPerPost =spark.sql (
+    val likesCountPerPost =spark.sql (
       """
         |SELECT created_time , likes_count
         |FROM postsInfo
         |ORDER BY created_at asc
         |""".stripMargin
     )
-    countLikesPerPost
+    likesCountPerPost
   }
 
-  def getLikesCountCommentsPerPost (PostsInfo : DataFrame, spark : SparkSession):DataFrame = {
-    val countCommentsPerPost =spark.sql (
+  def getCommentsCountPerPost (PostsInfo : DataFrame, spark : SparkSession):DataFrame = {
+    val CommentsCountPerPost =spark.sql (
       """
         |SELECT created_time , comments_count
         |FROM postsInfo
         |ORDER BY created_at asc
         |""".stripMargin
     )
-    countCommentsPerPost
+    CommentsCountPerPost
   }
 
-  def getUsersWithMostComments (CommentsInfo : DataFrame, spark : SparkSession):DataFrame ={
-    val  usersWithMostComments = spark.sql (
+  def getMostActiveUsers (CommentsInfo : DataFrame, spark : SparkSession):DataFrame ={
+    val  MostActiveUsers = spark.sql (
       """
         |select owner_id, username, count(owner_id)
         |from commentsInfo
@@ -44,7 +44,7 @@ object Aggregations {
         |order by count(owner_id) desc
         |""".stripMargin
     )
-    usersWithMostComments
+    MostActiveUsers
   }
 }
 //averageLikesAndAverageCommentsPerProfile.write.format("parquet").save("averageLikesAndAverageCommentsPerProfileTable")
