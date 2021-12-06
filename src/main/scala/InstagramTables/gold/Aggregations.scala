@@ -3,48 +3,58 @@ package InstagramTables.gold
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
 object Aggregations {
-  def getAverageLikesAndAverageCommentsPerProfile (PostsInfo : DataFrame, spark: SparkSession): DataFrame = {
-  PostsInfo.createOrReplaceTempView("PostsInfoTable")
-  val averageLikesAndAverageCommentsPerProfile = spark.sql(
+
+  def getAverageLikesAndAverageCommentsPerProfile ( tableName : String ,spark: SparkSession) = {
+
+  val query =
     """
-      |select avg (likes_count) as avg_likes , avg ( comments_count ) as avg_comments  FROM PostsInfoTable
+      |select is_video, location  FROM PostsInfoTable
       |""".stripMargin
-    )
-    averageLikesAndAverageCommentsPerProfile
+
+    executeAndPersistQuery(spark , query , tableName)
+
   }
 
-  def getLikesCountLikesPerPost (PostsInfo : DataFrame, spark : SparkSession):DataFrame = {
-    val likesCountPerPost =spark.sql (
+  def getLikesCountLikesPerPost (tableName : String, spark : SparkSession) = {
+
+    val query =
       """
         |SELECT created_time , likes_count
         |FROM postsInfo
         |ORDER BY created_at asc
         |""".stripMargin
-    )
-    likesCountPerPost
+
+    executeAndPersistQuery(spark , query , tableName)
+
   }
 
-  def getCommentsCountPerPost (PostsInfo : DataFrame, spark : SparkSession):DataFrame = {
-    val CommentsCountPerPost =spark.sql (
+  def getCommentsCountPerPost (tableName : String, spark : SparkSession) = {
+
+    val query =
       """
         |SELECT created_time , comments_count
         |FROM postsInfo
         |ORDER BY created_at asc
         |""".stripMargin
-    )
-    CommentsCountPerPost
+
+    executeAndPersistQuery(spark , query , tableName)
   }
 
-  def getMostActiveUsers (CommentsInfo : DataFrame, spark : SparkSession):DataFrame ={
-    val  MostActiveUsers = spark.sql (
+  def getMostActiveUsers (tableName : String, spark : SparkSession) ={
+
+    val  query =
       """
         |select owner_id, username, count(owner_id)
         |from commentsInfo
         |group by username, owner_id
         |order by count(owner_id) desc
         |""".stripMargin
-    )
-    MostActiveUsers
+
+    executeAndPersistQuery(spark , query , tableName)
+
   }
+
+  def executeAndPersistQuery(spark : SparkSession , query : String , tableName : String) =
+    spark.sql(query).write.mode("overwrite").parquet(tableName)
 }
 //averageLikesAndAverageCommentsPerProfile.write.format("parquet").save("averageLikesAndAverageCommentsPerProfileTable")
