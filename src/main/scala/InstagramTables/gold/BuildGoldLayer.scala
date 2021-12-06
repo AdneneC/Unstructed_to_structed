@@ -1,8 +1,8 @@
 package InstagramTables.gold
 
 import InstagramTables.gold.Aggregations.{getAverageLikesAndAverageCommentsPerProfile, getCommentsCountPerPost, getLikesCountLikesPerPost, getMostActiveUsers}
-import org.apache.spark
-import org.apache.spark.sql.SparkSession
+import InstagramTables.silver.PostsInfo
+import org.apache.spark.sql.{DataFrame, SparkSession}
 
 
 object BuildGoldLayer {
@@ -21,10 +21,10 @@ object BuildGoldLayer {
     silverCommentsInfo.createOrReplaceTempView("CommentsTable")
     silverProfileInfo.createOrReplaceTempView("ProfileInfoTable")
 
-    getAverageLikesAndAverageCommentsPerProfile.write.format("parquet").save("averageLikesAndAverageCommentsPerProfileTable")
-    getLikesCountLikesPerPost.write.format("parquet").save("LikesCountLikesPerPost")
-    getCommentsCountPerPost.write.format("parquet").save("CommentsCountLikesPerPost")
-    getMostActiveUsers.write.format("parquet").save("UsersWithMostComments")
+    getAverageLikesAndAverageCommentsPerProfile("averageLikesAndAverageCommentsPerProfile.parquet",spark)
+    getLikesCountLikesPerPost("LikesCountLikesPerPost.parquet",spark)
+    getCommentsCountPerPost("CommentsCountLikesPerPost.parquet",spark)
+    getMostActiveUsers("UsersWithMostComments.parquet",spark)
 
 
   }
