@@ -1,6 +1,4 @@
 package InstagramTables.silver
-
-import InstagramTables.bronze.{BuildBronzeLayer}
 import org.apache.spark.sql.{SparkSession,DataFrame}
 
 object BuildSilverLayer{
@@ -11,7 +9,7 @@ object BuildSilverLayer{
       .appName("Silver")
       .getOrCreate()
 
-    val BronzeLayer = spark.read.parquet("BronzeData.parquet")
+    val BronzeLayer = spark.read.option("multiLine", true).json("phil_coutinho-1.json")
 
     val commentsTable = CommentsInfo.extractCommentsInfoTable(BronzeLayer, spark)
     commentsTable.write.mode("append").parquet("SilverCommentsTable.parquet")

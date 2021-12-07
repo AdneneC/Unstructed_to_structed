@@ -11,10 +11,9 @@ object BuildBronzeLayer {
       .appName("Bronze")
       .getOrCreate()
 
-    val rawData = spark.read.option("multiline",true).json("phil.coutinho.json")
-    rawData.write.format("parquet").mode("overwrite").save("BronzeData.parquet")
+    val rawData = spark.read.option("multiLine", true).json("phil_coutinho-1.json")
+    rawData.write.format("parquet").save("BronzeData.parquet")
 
-    val BronzeLayer = spark.read.parquet("BronzeData.parquet")
   }
 
 }
